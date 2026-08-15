@@ -119,6 +119,9 @@ function ToggleRow({
 function SettingsPage() {
   const { preference, setPreference } = useTheme();
   const { preview, setPreview } = useLayoutPreview();
+  const { accent, glass, density, motion, set, reset } = useAppearance();
+
+
 
   return (
     <div className="mx-auto max-w-5xl space-y-8">

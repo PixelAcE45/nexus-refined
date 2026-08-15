@@ -182,20 +182,80 @@ function SettingsPage() {
             </div>
           </GlassPanel>
 
-          <GlassPanel className="p-6">
-            <SectionTitle title="Interface density" />
-            <div className="mt-4">
-              <ToggleRow
-                title="Reduced motion"
-                description="Minimise page and panel transitions across Nexus."
+          <GlassPanel className="@container p-6">
+            <SectionTitle
+              title="Interface"
+              action={
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="rounded-lg text-xs text-muted-foreground"
+                  onClick={() => {
+                    reset();
+                    toast("Interface reset to defaults");
+                  }}
+                >
+                  Reset
+                </Button>
+              }
+            />
+            <p className="mt-1 text-sm text-muted-foreground">
+              These settings apply across every Nexus surface.
+            </p>
+
+            <div className="mt-5 space-y-5">
+              <div className="grid gap-3 @md:grid-cols-[minmax(0,1fr)_auto] @md:items-center">
+                <div className="min-w-0">
+                  <p className="text-sm font-medium">Accent</p>
+                  <p className="mt-0.5 text-xs text-muted-foreground">
+                    Tints highlights, controls and the brand gradient.
+                  </p>
+                </div>
+                <div className="flex items-center gap-2">
+                  {accents.map((option) => (
+                    <button
+                      key={option.value}
+                      type="button"
+                      onClick={() => set("accent", option.value)}
+                      aria-label={option.label}
+                      aria-pressed={accent === option.value}
+                      className={cn(
+                        "tactile grid h-8 w-8 place-items-center rounded-full border border-glass-border bg-glass focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                        accent === option.value && "border-glass-highlight shadow-[var(--shadow-glass)]",
+                      )}
+                    >
+                      <span className={cn("h-3.5 w-3.5 rounded-full", option.swatch)} />
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <SegmentedRow
+                title="Glass intensity"
+                hint="How much of the background shows through surfaces."
+                value={glass}
+                options={glassOptions}
+                onChange={(value) => set("glass", value)}
               />
-              <ToggleRow
-                title="Atmospheric background"
-                description="Show the cinematic backdrop behind glass surfaces."
-                defaultChecked
+
+              <SegmentedRow
+                title="Density"
+                hint="Overall scale of spacing, radius and type."
+                value={density}
+                options={densityOptions}
+                onChange={(value) => set("density", value)}
+              />
+
+              <SegmentedRow
+                title="Motion"
+                hint="Intensity of transitions and page animations."
+                value={motion}
+                options={motionOptions}
+                onChange={(value) => set("motion", value)}
               />
             </div>
           </GlassPanel>
+
         </TabsContent>
 
         <TabsContent value="profile" className="space-y-6">

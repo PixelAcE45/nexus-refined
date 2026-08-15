@@ -194,11 +194,11 @@
   /* a soft colour field so the glass always has something to refract */
   --gradient-veil: radial-gradient(
       85% 60% at 82% -8%,
-      oklch(0.68 0.13 288 / 24%),
+      oklch(0.7 0.15 288 / 52%),
       transparent 62%
     ),
-    radial-gradient(70% 55% at 4% 6%, oklch(0.72 0.1 235 / 20%), transparent 60%),
-    radial-gradient(80% 70% at 60% 110%, oklch(0.8 0.08 80 / 16%), transparent 64%);
+    radial-gradient(70% 55% at 2% 4%, oklch(0.74 0.12 232 / 44%), transparent 60%),
+    radial-gradient(80% 70% at 60% 112%, oklch(0.84 0.1 78 / 34%), transparent 64%);
   --atmosphere-opacity: 0.32;
   --atmosphere-filter: brightness(1.7) saturate(0.6) contrast(0.85);
   --veil-inner-opacity: 0.9;

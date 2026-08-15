@@ -13,7 +13,15 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import {
+  useAppearance,
+  type Accent,
+  type Density,
+  type GlassLevel,
+  type Motion,
+} from "@/components/nexus/appearance-provider";
 import { GlassPanel, IconTile, PageHeader, SectionTitle } from "@/components/nexus/glass";
+
 import { useLayoutPreview, type LayoutPreview } from "@/components/nexus/layout-provider";
 import { useTheme, type ThemePreference } from "@/components/nexus/theme-provider";
 import { Button } from "@/components/ui/button";

@@ -1,0 +1,205 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { Bot, Plus, Send, Sparkles, User } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
+import { GlassPanel, IconTile, PageHeader, SectionTitle } from "@/components/nexus/glass";
+import { Button } from "@/components/ui/button";
+
+export const Route = createFileRoute("/assistant")({
+  head: () => ({
+    meta: [
+      { title: "AI Assistant — Nexus AI OS" },
+      {
+        name: "description",
+        content:
+          "A calm AI workspace inside Nexus: draft, summarise, plan and analyse with your context at hand.",
+      },
+      { property: "og:title", content: "AI Assistant — Nexus AI OS" },
+      {
+        property: "og:description",
+        content: "Draft, summarise, plan and analyse with the Nexus AI assistant.",
+      },
+    ],
+  }),
+  component: AssistantPage,
+});
+
+type Message = { id: number; role: "user" | "nexus"; text: string };
+
+const initialMessages: Message[] = [
+  {
+    id: 1,
+    role: "nexus",
+    text: "Good evening, Aarav. I have your workspaces, calendar and knowledge base in context. What should we work on?",
+  },
+  { id: 2, role: "user", text: "Summarise where the product launch stands." },
+  {
+    id: 3,
+    role: "nexus",
+    text: "Product Launch is 48% complete. Design sign-off and pricing copy are the two open blockers, and the go-live review is booked for Thursday at 3:00 PM.",
+  },
+];
+
+const threads = [
+  { title: "Product launch status", meta: "Today" },
+  { title: "Q2 revenue breakdown", meta: "Yesterday" },
+  { title: "Hiring plan draft", meta: "3 days ago" },
+];
+
+const capabilities = [
+  "Summarise this week's meetings",
+  "Draft a client update",
+  "Turn notes into tasks",
+  "Analyse the Q2 report",
+];
+
+function AssistantPage() {
+  const [messages, setMessages] = useState(initialMessages);
+  const [draft, setDraft] = useState("");
+
+  const send = (text: string) => {
+    if (!text.trim()) return;
+    const id = Date.now();
+    setMessages((current) => [
+      ...current,
+      { id, role: "user", text: text.trim() },
+      {
+        id: id + 1,
+        role: "nexus",
+        text: "Noted. Once the Nexus backend is connected I'll answer this using your live workspace context.",
+      },
+    ]);
+    setDraft("");
+  };
+
+  return (
+    <div className="space-y-6">
+      <PageHeader
+        eyebrow="INTELLIGENCE"
+        title="AI Assistant"
+        description="A single place to think out loud. Nexus keeps your workspace context attached to every conversation."
+        actions={
+          <Button
+            onClick={() => {
+              setMessages(initialMessages);
+              toast.success("New conversation started");
+            }}
+            className="brand-gradient rounded-xl text-primary-foreground hover:opacity-90"
+          >
+            <Plus className="h-4 w-4" /> New chat
+          </Button>
+        }
+      />
+
+      <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_300px]">
+        <GlassPanel className="flex min-h-[520px] flex-col p-5 sm:p-6">
+          <div className="scroll-slim flex-1 space-y-4 overflow-y-auto pr-1">
+            {messages.map((message) => (
+              <div
+                key={message.id}
+                className={
+                  message.role === "user"
+                    ? "flex flex-row-reverse items-start gap-3"
+                    : "flex items-start gap-3"
+                }
+              >
+                <IconTile tone={message.role === "user" ? "azure" : "violet"} className="h-9 w-9">
+                  {message.role === "user" ? (
+                    <User className="h-4 w-4" />
+                  ) : (
+                    <Bot className="h-4 w-4" />
+                  )}
+                </IconTile>
+                <div
+                  className={
+                    message.role === "user"
+                      ? "glass-strong max-w-[85%] rounded-2xl px-4 py-3 text-sm"
+                      : "glass max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed"
+                  }
+                >
+                  {message.text}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="glass mt-5 rounded-2xl p-3">
+            <div className="grid grid-cols-[minmax(0,1fr)_auto] items-end gap-3">
+              <textarea
+                value={draft}
+                rows={2}
+                onChange={(event) => setDraft(event.target.value)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" && !event.shiftKey) {
+                    event.preventDefault();
+                    send(draft);
+                  }
+                }}
+                placeholder="Message Nexus…"
+                className="min-w-0 resize-none bg-transparent px-1 text-sm outline-none placeholder:text-muted-foreground"
+              />
+              <Button
+                size="icon"
+                aria-label="Send message"
+                onClick={() => send(draft)}
+                className="brand-gradient shrink-0 rounded-xl text-primary-foreground hover:opacity-90"
+              >
+                <Send className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+        </GlassPanel>
+
+        <aside className="space-y-5">
+          <GlassPanel className="p-5">
+            <SectionTitle title="Recent threads" />
+            <ul className="mt-4 space-y-1">
+              {threads.map((thread) => (
+                <li key={thread.title}>
+                  <button
+                    type="button"
+                    onClick={() => toast(`Opening “${thread.title}”`)}
+                    className="w-full rounded-xl px-3 py-2.5 text-left transition-colors hover:bg-glass"
+                  >
+                    <span className="block truncate text-sm font-medium">{thread.title}</span>
+                    <span className="block text-xs text-muted-foreground">{thread.meta}</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </GlassPanel>
+
+          <GlassPanel className="p-5">
+            <SectionTitle title="Try asking" />
+            <div className="mt-4 flex flex-wrap gap-2">
+              {capabilities.map((item) => (
+                <button
+                  key={item}
+                  type="button"
+                  onClick={() => send(item)}
+                  className="glass glass-hover rounded-full px-3.5 py-2 text-xs text-muted-foreground hover:text-foreground"
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+          </GlassPanel>
+
+          <GlassPanel className="p-5">
+            <div className="flex items-center gap-3">
+              <IconTile tone="violet">
+                <Sparkles className="h-[1.05rem] w-[1.05rem]" />
+              </IconTile>
+              <div className="min-w-0">
+                <p className="text-sm font-medium">Context attached</p>
+                <p className="text-xs text-muted-foreground">
+                  3 workspaces · 12 files · calendar
+                </p>
+              </div>
+            </div>
+          </GlassPanel>
+        </aside>
+      </div>
+    </div>
+  );
+}

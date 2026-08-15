@@ -145,7 +145,6 @@ export function AppShell({ children }: { children: ReactNode }) {
       <div className={cn("relative flex min-h-[100dvh] p-0 md:p-3 lg:p-4", forceMobile && "md:p-6")}>
         <div
           className={cn("glass-strong relative flex h-[100dvh] w-full overflow-hidden rounded-none md:h-[calc(100dvh-1.5rem)] md:rounded-3xl lg:h-[calc(100dvh-2rem)]", forceMobile && "mx-auto w-full max-w-[430px] rounded-3xl")}
-          /* interior colour field: gives inner glass surfaces something to refract */
           style={{
             backgroundImage:
               "linear-gradient(to bottom, var(--glass-sheen), transparent 38%), var(--gradient-veil)",

@@ -143,8 +143,11 @@ export function AppShell({ children }: { children: ReactNode }) {
       </div>
 
       <div className={cn("relative flex min-h-[100dvh] p-0 md:p-3 lg:p-4", forceMobile && "md:p-6")}>
-        <div className={cn("glass-strong flex h-[100dvh] w-full overflow-hidden rounded-none md:h-[calc(100dvh-1.5rem)] md:rounded-3xl lg:h-[calc(100dvh-2rem)]", forceMobile && "mx-auto w-full max-w-[430px] rounded-3xl")}>
+        <div className={cn("glass-strong relative isolate flex h-[100dvh] w-full overflow-hidden rounded-none md:h-[calc(100dvh-1.5rem)] md:rounded-3xl lg:h-[calc(100dvh-2rem)]", forceMobile && "mx-auto w-full max-w-[430px] rounded-3xl")}>
+          {/* interior colour field: gives inner glass surfaces something to refract */}
+          <div aria-hidden className="veil pointer-events-none absolute inset-0 -z-10 opacity-[var(--veil-inner-opacity)]" />
           {/* desktop sidebar */}
+
           <aside className={cn("hidden w-[264px] shrink-0 flex-col border-r border-hairline p-4", forceMobile ? "lg:hidden" : "lg:flex")}>
             <Link to="/" className="px-2 py-2">
               <NexusLogo />

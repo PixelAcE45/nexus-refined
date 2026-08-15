@@ -347,18 +347,22 @@
 /* ---------- Glass material ---------- */
 
 @utility glass {
-  background: var(--glass-bg);
+  background-color: var(--glass-bg);
+  background-image: linear-gradient(to bottom, var(--glass-sheen), transparent 44%);
   border: 1px solid var(--glass-border);
-  backdrop-filter: blur(var(--glass-blur)) saturate(150%);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
   box-shadow: var(--shadow-glass);
 }
 
 @utility glass-strong {
-  background: var(--glass-bg-strong);
+  background-color: var(--glass-bg-strong);
+  background-image: linear-gradient(to bottom, var(--glass-sheen), transparent 38%);
   border: 1px solid var(--glass-border);
-  backdrop-filter: blur(calc(var(--glass-blur) + 8px)) saturate(160%);
+  backdrop-filter: blur(calc(var(--glass-blur) + 8px))
+    saturate(calc(var(--glass-saturate) + 10%));
   box-shadow: var(--shadow-float);
 }
+
 
 @utility glass-hover {
   transition:

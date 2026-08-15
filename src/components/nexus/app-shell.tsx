@@ -136,7 +136,8 @@ export function AppShell({ children }: { children: ReactNode }) {
           width={1920}
           height={1088}
           className="h-full w-full object-cover transition-opacity duration-700"
-          style={{ opacity: "var(--atmosphere-opacity)" }}
+          style={{ opacity: "var(--atmosphere-opacity)", filter: "var(--atmosphere-filter)" }}
+
         />
         <div className="veil absolute inset-0" />
       </div>

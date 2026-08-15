@@ -137,6 +137,7 @@
   );
   --atmosphere-opacity: 0.85;
   --atmosphere-filter: none;
+  --veil-inner-opacity: 0.5;
 }
 
 .light {
@@ -198,8 +199,9 @@
     ),
     radial-gradient(70% 55% at 4% 6%, oklch(0.72 0.1 235 / 20%), transparent 60%),
     radial-gradient(80% 70% at 60% 110%, oklch(0.8 0.08 80 / 16%), transparent 64%);
-  --atmosphere-opacity: 0.28;
-  --atmosphere-filter: brightness(1.75) saturate(0.55) contrast(0.85);
+  --atmosphere-opacity: 0.32;
+  --atmosphere-filter: brightness(1.7) saturate(0.6) contrast(0.85);
+  --veil-inner-opacity: 0.9;
 }
 
 .dark {

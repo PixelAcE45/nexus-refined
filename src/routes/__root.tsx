@@ -12,8 +12,10 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AppShell } from "@/components/nexus/app-shell";
+import { AppearanceProvider } from "@/components/nexus/appearance-provider";
 import { LayoutProvider } from "@/components/nexus/layout-provider";
 import { ThemeProvider } from "@/components/nexus/theme-provider";
+
 
 import { Toaster } from "@/components/ui/sonner";
 

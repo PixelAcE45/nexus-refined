@@ -62,6 +62,74 @@ const layoutOptions: { value: LayoutPreview; label: string; hint: string; icon: 
     { value: "mobile", label: "Mobile", hint: "Preview the mobile shell", icon: Smartphone },
   ];
 
+const accents: { value: Accent; label: string; swatch: string }[] = [
+  { value: "violet", label: "Violet", swatch: "bg-violet" },
+  { value: "azure", label: "Azure", swatch: "bg-azure" },
+  { value: "mint", label: "Mint", swatch: "bg-mint" },
+  { value: "amber", label: "Amber", swatch: "bg-amber" },
+  { value: "rose", label: "Rose", swatch: "bg-rose" },
+];
+
+const glassOptions: { value: GlassLevel; label: string }[] = [
+  { value: "low", label: "Solid" },
+  { value: "medium", label: "Balanced" },
+  { value: "high", label: "Airy" },
+];
+
+const densityOptions: { value: Density; label: string }[] = [
+  { value: "compact", label: "Compact" },
+  { value: "comfortable", label: "Default" },
+  { value: "spacious", label: "Spacious" },
+];
+
+const motionOptions: { value: Motion; label: string }[] = [
+  { value: "full", label: "Full" },
+  { value: "subtle", label: "Subtle" },
+  { value: "off", label: "Off" },
+];
+
+function SegmentedRow<T extends string>({
+  title,
+  hint,
+  value,
+  options,
+  onChange,
+}: {
+  title: string;
+  hint: string;
+  value: T;
+  options: { value: T; label: string }[];
+  onChange: (value: T) => void;
+}) {
+  return (
+    <div className="grid gap-3 border-t border-hairline pt-5 @md:grid-cols-[minmax(0,1fr)_auto] @md:items-center">
+      <div className="min-w-0">
+        <p className="text-sm font-medium">{title}</p>
+        <p className="mt-0.5 text-xs text-muted-foreground">{hint}</p>
+      </div>
+      <div className="glass inline-flex items-center gap-1 rounded-xl p-1">
+        {options.map((option) => (
+          <button
+            key={option.value}
+            type="button"
+            aria-pressed={value === option.value}
+            onClick={() => onChange(option.value)}
+            className={cn(
+              "tactile rounded-lg px-3 py-1.5 text-xs font-medium text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+              value === option.value &&
+                "border border-glass-border bg-glass-strong text-foreground shadow-[var(--shadow-glass)]",
+            )}
+          >
+            {option.label}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+
+
 function OptionCard({
   active,
   label,
